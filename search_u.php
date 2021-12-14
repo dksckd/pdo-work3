@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
-    <title>更新対象検索画面</title>
+  <title>ユーザー検索画面</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
