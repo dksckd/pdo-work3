@@ -56,10 +56,16 @@ try{
 <p>データ件数：<?php echo $count;?>件</p>
 
 <div class="container">
-/*  (1)ここに適切な formタグを追加してください  */
-
+<header>
+       <div>
+            <h1>ユーザー一覧</h1>
+       </div>
+    </header>
+</div>
+<hr>
+<p><?php echo $count;?>件見つかりました。</p>
 <table border=1>
-    <tr><th>id</th><th>名前</th><th>メールアドレス</th><th>性別</th><th>選択対象</th></tr>
+    <tr><th>id</th><th>名前</th><th>メールアドレス</th><th>性別</th><th>
     <?php foreach($data as $row): ?>
     <tr>
     <td><?php echo $row['id'];?></td>
@@ -76,24 +82,53 @@ try{
            }
         ?>
     </td>
-    <td>
-        /*  (2)ここにラジオボタン表示処理を追加して下さい  */
-
-    </td>
     </tr>
     <?php endforeach; ?>
 </table>
 <p style="margin:8px;">
 
-<p>編集するデータを選択してください</p>
+<form action="" method="get">
+    <div>
+        <p>現在 <?php echo $page; ?> ページ目です。</p>
+        <?php 
 
-        <div class="button-wrapper">
-            <button type="button" onclick="location.href='search_u.php'">戻る</button>
-	        <button type="submit" class="btn btn--naby btn--shadow">編集する</button>
-        </div>
-</form>
+        $stmt = $dbh->prepare("SELECT COUNT(*) id FROM user WHERE name like :name"); 
+
+        $stmt->bindValue(':name', '%'.$name.'%', PDO::PARAM_STR); 
+        
+
+        $stmt->execute(); 
+
+        $page_num = $stmt->fetchColumn(); 
+
+        $pagination = ceil($page_num / $limit);
+        
+        ?>
+
+        <?php  
+
+            for ($x=1; $x <= $pagination ; $x++) { 
+
+                if ($x == $page){
+                    echo '<span>'.$x.'</span> | ';
+                }
+                else{
+                    echo ' '; 
+
+                    echo '<a href=?page='. $x. '&name='. $name.'>'. $x. '</a>'; 
+         
+                    echo ' '; 
+
+                }
+
+} ?> 
 </div>
+<div class="button-wrapper"> 
 
+<button type="button" onclick="history.back()">戻る</button> 
+
+</div> 
+</form>
 <hr>
 <div class="container">
     <footer>
