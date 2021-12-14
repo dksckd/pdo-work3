@@ -2,7 +2,12 @@
   session_start();
   require_once("functions.php");
 
-  /* (1)ここにセッション変数の受け渡し処理を追加して下さい  */
+  
+  $name = $_SESSION['name'];
+  $email = $_SESSION['email'];
+  $gender = $_SESSION['gender'];
+  $edit = $_SESSION['edit'];
+
 
 
 
@@ -10,7 +15,7 @@
 
 $dbh = db_conn();      // データベース接続
 try{
-    /* (2)ここにSQL文＋プレースホルダー　の文字列を準備する処理を追加して下さい  */
+    $sql = "UPDATE user SET name = :name, email = :email, gender = :gender WHERE id = :id";
 
     $stmt = $dbh->prepare($sql);                           //クエリの実行準備
     $stmt->bindValue(':email', $email, PDO::PARAM_STR);    //バインド:プレースホルダ―の値を埋める
