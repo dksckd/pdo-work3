@@ -1,18 +1,19 @@
 <?php
-session_start();
+$limit = 5;
 require_once("functions.php");
-
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     if(isset($_POST["name"])){
-        if(! empty($_POST["name"])) {
-           $name = htmlspecialchars($_POST["name"], ENT_QUOTES, 'UTF-8');
-           $_SESSION["condition_name"] = $_POST["name"];
-        } else {
-           $_SESSION["condition_name"] = $_POST["name"];
+        if(!empty($_POST["name"])) {
+            $name = htmlspecialchars($_POST["name"], ENT_QUOTES, 'UTF-8');
         }
+        $page = 1;
+        $start = 0;
     }
-} else {
-    $name = $_SESSION["condition_name"];  //from edit.php
+    
+}elseif($_SERVER['REQUEST_METHOD']==='GET'){
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $name = htmlspecialchars($_POST["name"], ENT_QUOTES, 'UTF-8');
+        $start = ($page - 1) * $limit;
 }
 
 $dbh = db_conn();
